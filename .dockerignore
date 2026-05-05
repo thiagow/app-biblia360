@@ -1,0 +1,16 @@
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+node_modules
+.next
+dist
+*.md
+LICENSE
+.vscode
+.idea
+.DS_Store
+docker-compose*.yml
+scripts/
+src/db/migrations/
