@@ -43,7 +43,7 @@ interface QuizData {
   profiles: Profile[];
 }
 
-type Screen = "intro" | "question" | "loading" | "result" | "testimonials" | "offer" | "checkout";
+type Screen = "intro" | "question" | "loading" | "result" | "testimonials" | "offer";
 
 function ProofCarousel() {
   const IMAGES = [
@@ -187,7 +187,6 @@ export function QuizShell({ data }: { data: QuizData }) {
   const [selectedPlan, setSelectedPlan] = useState<"basic" | "advanced">("advanced");
   const [showDiscountPopup, setShowDiscountPopup] = useState(false);
   const [advancedWithDiscount, setAdvancedWithDiscount] = useState(false);
-  const [checkoutPlan, setCheckoutPlan] = useState<"basic" | "advanced" | null>(null);
   const trackedPageView = useRef(false);
 
   useEffect(() => {
@@ -493,8 +492,14 @@ export function QuizShell({ data }: { data: QuizData }) {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setSelectedPlan("basic");
-                    setShowDiscountPopup(true);
+                    if (!advancedWithDiscount) {
+                      setSelectedPlan("basic");
+                      setShowDiscountPopup(true);
+                    } else {
+                      const url = "https://go.perfectpay.com.br/PPU38CQBJHG";
+                      track(project.slug, "cta_click", { profileName: "basic", ctaUrl: url });
+                      window.open(url, "_blank", "noopener,noreferrer");
+                    }
                   }}
                   style={{
                     width: "100%",
@@ -561,8 +566,9 @@ export function QuizShell({ data }: { data: QuizData }) {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCheckoutPlan("advanced");
-                    setScreen("checkout");
+                    const url = "https://go.perfectpay.com.br/PPU38CQBJHE";
+                    track(project.slug, "cta_click", { profileName: "advanced", ctaUrl: url });
+                    window.open(url, "_blank", "noopener,noreferrer");
                   }}
                   style={{
                     width: "100%",
@@ -609,9 +615,10 @@ export function QuizShell({ data }: { data: QuizData }) {
                   <button
                     onClick={() => {
                       setAdvancedWithDiscount(true);
-                      setCheckoutPlan("advanced");
                       setShowDiscountPopup(false);
-                      setScreen("checkout");
+                      const url = "https://go.perfectpay.com.br/PPU38CQBJHE";
+                      track(project.slug, "cta_click", { profileName: "advanced_discount", ctaUrl: url });
+                      window.open(url, "_blank", "noopener,noreferrer");
                     }}
                     style={{
                       width: "100%",
@@ -633,9 +640,10 @@ export function QuizShell({ data }: { data: QuizData }) {
 
                   <button
                     onClick={() => {
-                      setCheckoutPlan("basic");
                       setShowDiscountPopup(false);
-                      setScreen("checkout");
+                      const url = "https://go.perfectpay.com.br/PPU38CQBJHG";
+                      track(project.slug, "cta_click", { profileName: "basic", ctaUrl: url });
+                      window.open(url, "_blank", "noopener,noreferrer");
                     }}
                     style={{
                       width: "100%",
@@ -669,8 +677,9 @@ export function QuizShell({ data }: { data: QuizData }) {
             <button
               className="btn-primary"
               onClick={() => {
-                setCheckoutPlan("advanced");
-                setScreen("checkout");
+                const url = "https://go.perfectpay.com.br/PPU38CQBJHE";
+                track(project.slug, "cta_click", { profileName: "advanced", ctaUrl: url });
+                window.open(url, "_blank", "noopener,noreferrer");
               }}
               style={{ cursor: "pointer" }}
             >
@@ -691,119 +700,13 @@ export function QuizShell({ data }: { data: QuizData }) {
                 { q: "Receberei o material em casa?", a: "Não, o material é 100% online — não há material físico. No entanto, todo o conteúdo está disponível a qualquer momento." },
               ]} />
               <button className="btn-primary" onClick={() => {
-                setCheckoutPlan("advanced");
-                setScreen("checkout");
+                const url = "https://go.perfectpay.com.br/PPU38CQBJHE";
+                track(project.slug, "cta_click", { profileName: "advanced", ctaUrl: url });
+                window.open(url, "_blank", "noopener,noreferrer");
               }} style={{ marginTop: "1.25rem", cursor: "pointer" }}>
                 Quero Começar Agora
               </button>
             </div>
-          </div>
-        )}
-
-        {/* Checkout */}
-        {screen === "checkout" && checkoutPlan && resultProfile && (
-          <div>
-            <div className="capture-title">Confirmação do Plano</div>
-
-            <div style={{ background: "linear-gradient(135deg, #1f1408 0%, #2a1c0a 100%)", border: "2px solid var(--gold)", borderRadius: "16px", padding: "24px 16px", marginBottom: "1.5rem" }}>
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <div style={{ color: "var(--cream)", fontSize: "18px", fontWeight: 600, fontFamily: "'Playfair Display', serif", marginBottom: "8px" }}>
-                  {checkoutPlan === "basic" ? "Plano Básico" : "Plano Avançado"}
-                </div>
-                <div style={{ color: "var(--cream-sub)", fontSize: "13px", marginBottom: "12px" }}>Bíblia 360° - Acesso anual</div>
-                <div style={{ color: "var(--gold)", fontSize: "32px", fontWeight: 700, fontFamily: "'Playfair Display', serif", lineHeight: 1 }}>
-                  {checkoutPlan === "basic"
-                    ? "R$ 19,90"
-                    : advancedWithDiscount
-                    ? "R$ 27,90"
-                    : "R$ 39,90"}
-                </div>
-                {checkoutPlan === "advanced" && advancedWithDiscount && (
-                  <div style={{ color: "rgba(245,232,200,0.5)", fontSize: "11px", marginTop: "6px" }}>
-                    De R$ 39,90 com desconto exclusivo
-                  </div>
-                )}
-              </div>
-
-              <div style={{ borderTop: "0.5px solid rgba(212,168,80,0.15)", paddingTop: "16px" }}>
-                <div style={{ color: "var(--cream-sub)", fontSize: "12px", marginBottom: "8px", fontWeight: 500 }}>Você receberá:</div>
-                <div style={{ color: "var(--cream-sub)", fontSize: "11px", lineHeight: "1.6" }}>
-                  {checkoutPlan === "basic" ? (
-                    <>
-                      <div style={{ marginBottom: "6px" }}>✦ 39 Mapas mentais (Antigo Testamento)</div>
-                      <div>✦ 27 Mapas mentais (Novo Testamento)</div>
-                    </>
-                  ) : (
-                    <>
-                      <div style={{ marginBottom: "6px" }}>✦ 39 Mapas mentais (AT)</div>
-                      <div style={{ marginBottom: "6px" }}>✦ 27 Mapas mentais (NT)</div>
-                      <div style={{ marginBottom: "6px" }}>✦ 39 Resumos (AT)</div>
-                      <div style={{ marginBottom: "6px" }}>✦ 27 Resumos (NT)</div>
-                      <div style={{ marginBottom: "6px" }}>✦ Guia de Orações</div>
-                      <div style={{ marginBottom: "6px" }}>✦ Emoções da Bíblia</div>
-                      <div style={{ marginBottom: "6px" }}>✦ Divisão Bíblica</div>
-                      <div style={{ marginBottom: "6px" }}>✦ Tabela Periódica</div>
-                      <div style={{ marginBottom: "6px" }}>✦ Planner Devocional</div>
-                      <div style={{ marginBottom: "6px" }}>✦ Guia da Fé</div>
-                      <div>✦ Marcadores Bíblicos</div>
-                    </>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div style={{ background: "rgba(212,168,80,0.06)", border: "0.5px solid rgba(212,168,80,0.25)", borderRadius: "14px", padding: "16px", marginBottom: "1.5rem", display: "flex", alignItems: "flex-start", gap: "14px" }}>
-              <img src="/biblia360-garantia.png" alt="Garantia 7 dias" style={{ width: 56, height: 56, minWidth: 56, objectFit: "contain" }} />
-              <div>
-                <div style={{ color: "var(--gold)", fontSize: "12px", fontWeight: 600, marginBottom: "4px" }}>Garantia de 7 dias</div>
-                <p style={{ color: "var(--cream-sub)", fontSize: "11px", lineHeight: "1.6", margin: 0 }}>
-                  Se não for exatamente o que você esperava, devolvemos 100% do seu dinheiro, sem perguntas.
-                </p>
-              </div>
-            </div>
-
-            <button
-              className="btn-primary"
-              onClick={() => {
-                const url = checkoutPlan === "basic"
-                  ? "https://go.perfectpay.com.br/PPU38CQBJHG"
-                  : "https://go.perfectpay.com.br/PPU38CQBJHE";
-                track(project.slug, "cta_click", { profileName: checkoutPlan ?? "", ctaUrl: url });
-                window.open(url, "_blank", "noopener,noreferrer");
-              }}
-              style={{ cursor: "pointer", marginBottom: "12px" }}
-            >
-              ✓ Finalizar Compra
-            </button>
-
-            <button
-              onClick={() => {
-                setScreen("offer");
-                setCheckoutPlan(null);
-              }}
-              style={{
-                width: "100%",
-                background: "transparent",
-                color: "var(--cream-sub)",
-                border: "1px solid rgba(212,168,80,0.3)",
-                borderRadius: "8px",
-                padding: "12px 16px",
-                fontSize: "12px",
-                fontWeight: 500,
-                cursor: "pointer",
-                transition: "all 0.3s",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.borderColor = "var(--gold)";
-                e.currentTarget.style.color = "var(--gold)";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.borderColor = "rgba(212,168,80,0.3)";
-                e.currentTarget.style.color = "var(--cream-sub)";
-              }}
-            >
-              ← Quero Começar Agora
-            </button>
           </div>
         )}
 
