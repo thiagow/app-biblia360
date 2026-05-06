@@ -449,7 +449,25 @@ export function QuizShell({ data }: { data: QuizData }) {
                 O Bíblia 360° vive no seu bolso através de um aplicativo exclusivo.
               </div>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", margin: "1.5rem 0" }}>
+            <style>{`
+              @media (max-width: 768px) {
+                .plans-container {
+                  display: flex;
+                  flex-direction: column-reverse;
+                  gap: 16px;
+                  margin: 1.5rem 0;
+                }
+              }
+              @media (min-width: 769px) {
+                .plans-container {
+                  display: grid;
+                  grid-template-columns: 1fr 1fr;
+                  gap: 16px;
+                  margin: 1.5rem 0;
+                }
+              }
+            `}</style>
+            <div className="plans-container">
               {/* Plano Básico */}
               <div
                 onClick={() => {
