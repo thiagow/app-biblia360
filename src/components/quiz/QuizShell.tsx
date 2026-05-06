@@ -103,8 +103,7 @@ function ProofCarousel() {
           onClick={dir === "prev" ? prev : next}
           style={{
             position: "absolute",
-            top: "50%",
-            transform: "translateY(-50%)",
+            bottom: "60px",
             [dir === "prev" ? "left" : "right"]: "8px",
             width: "36px",
             height: "36px",
