@@ -494,8 +494,8 @@ export function QuizShell({ data }: { data: QuizData }) {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCheckoutPlan("basic");
-                    setScreen("checkout");
+                    setSelectedPlan("basic");
+                    setShowDiscountPopup(true);
                   }}
                   style={{
                     width: "100%",
@@ -609,9 +609,10 @@ export function QuizShell({ data }: { data: QuizData }) {
 
                   <button
                     onClick={() => {
-                      setSelectedPlan("advanced");
                       setAdvancedWithDiscount(true);
+                      setCheckoutPlan("advanced");
                       setShowDiscountPopup(false);
+                      setScreen("checkout");
                     }}
                     style={{
                       width: "100%",
@@ -632,7 +633,11 @@ export function QuizShell({ data }: { data: QuizData }) {
                   </button>
 
                   <button
-                    onClick={() => setShowDiscountPopup(false)}
+                    onClick={() => {
+                      setCheckoutPlan("basic");
+                      setShowDiscountPopup(false);
+                      setScreen("checkout");
+                    }}
                     style={{
                       width: "100%",
                       background: "transparent",
@@ -665,9 +670,8 @@ export function QuizShell({ data }: { data: QuizData }) {
             <button
               className="btn-primary"
               onClick={() => {
-                setScreen("offer");
-                setSelectedPlan("advanced");
-                setShowDiscountPopup(false);
+                setCheckoutPlan("advanced");
+                setScreen("checkout");
               }}
               style={{ cursor: "pointer" }}
             >
@@ -688,9 +692,8 @@ export function QuizShell({ data }: { data: QuizData }) {
                 { q: "Receberei o material em casa?", a: "Não, o material é 100% online — não há material físico. No entanto, todo o conteúdo está disponível a qualquer momento." },
               ]} />
               <button className="btn-primary" onClick={() => {
-                setScreen("offer");
-                setSelectedPlan("advanced");
-                setShowDiscountPopup(false);
+                setCheckoutPlan("advanced");
+                setScreen("checkout");
               }} style={{ marginTop: "1.25rem", cursor: "pointer" }}>
                 Quero Começar Agora
               </button>
@@ -763,13 +766,11 @@ export function QuizShell({ data }: { data: QuizData }) {
             <button
               className="btn-primary"
               onClick={() => {
-                const plan = checkoutPlan === "basic" ? "basic" : "advanced";
-                const profile = profiles.find(p =>
-                  (plan === "basic" && p.name === "O Cristão Superficial") ||
-                  (plan === "advanced" && p.name === "O Líder Omitido")
-                ) || resultProfile;
-                track(project.slug, "cta_click", { profileName: profile.name, ctaUrl: profile.ctaUrl });
-                window.open(profile.ctaUrl, "_blank", "noopener,noreferrer");
+                const url = checkoutPlan === "basic"
+                  ? "https://go.perfectpay.com.br/PPU38CQBJHG"
+                  : "https://go.perfectpay.com.br/PPU38CQBJHE";
+                track(project.slug, "cta_click", { profileName: checkoutPlan ?? "", ctaUrl: url });
+                window.open(url, "_blank", "noopener,noreferrer");
               }}
               style={{ cursor: "pointer", marginBottom: "12px" }}
             >
