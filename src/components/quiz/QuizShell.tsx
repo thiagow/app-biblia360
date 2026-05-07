@@ -676,11 +676,7 @@ export function QuizShell({ data }: { data: QuizData }) {
 
             <button
               className="btn-primary"
-              onClick={() => {
-                const url = "https://go.perfectpay.com.br/PPU38CQBJHE";
-                track(project.slug, "cta_click", { profileName: "advanced", ctaUrl: url });
-                window.open(url, "_blank", "noopener,noreferrer");
-              }}
+              onClick={() => setScreen("offer")}
               style={{ cursor: "pointer" }}
             >
               Quero Começar Agora
@@ -699,11 +695,7 @@ export function QuizShell({ data }: { data: QuizData }) {
                 { q: "Em qual dispositivo posso ver os mapas?", a: "Você pode acessar o aplicativo com todo o conteúdo da Bíblia 360° em qualquer dispositivo, seja celular, tablet ou computador." },
                 { q: "Receberei o material em casa?", a: "Não, o material é 100% online — não há material físico. No entanto, todo o conteúdo está disponível a qualquer momento." },
               ]} />
-              <button className="btn-primary" onClick={() => {
-                const url = "https://go.perfectpay.com.br/PPU38CQBJHE";
-                track(project.slug, "cta_click", { profileName: "advanced", ctaUrl: url });
-                window.open(url, "_blank", "noopener,noreferrer");
-              }} style={{ marginTop: "1.25rem", cursor: "pointer" }}>
+              <button className="btn-primary" onClick={() => setScreen("offer")} style={{ marginTop: "1.25rem", cursor: "pointer" }}>
                 Quero Começar Agora
               </button>
             </div>
