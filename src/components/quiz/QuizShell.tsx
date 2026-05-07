@@ -188,6 +188,7 @@ export function QuizShell({ data }: { data: QuizData }) {
   const [showDiscountPopup, setShowDiscountPopup] = useState(false);
   const [advancedWithDiscount, setAdvancedWithDiscount] = useState(false);
   const trackedPageView = useRef(false);
+  const plansRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!trackedPageView.current) {
@@ -460,7 +461,7 @@ export function QuizShell({ data }: { data: QuizData }) {
                 }
               }
             `}</style>
-            <div className="plans-container">
+            <div className="plans-container" ref={plansRef}>
               {/* Plano Básico */}
               <div
                 onClick={() => {
@@ -676,7 +677,7 @@ export function QuizShell({ data }: { data: QuizData }) {
 
             <button
               className="btn-primary"
-              onClick={() => setScreen("offer")}
+              onClick={() => plansRef.current?.scrollIntoView({ behavior: "smooth" })}
               style={{ cursor: "pointer" }}
             >
               Quero Começar Agora
@@ -695,7 +696,7 @@ export function QuizShell({ data }: { data: QuizData }) {
                 { q: "Em qual dispositivo posso ver os mapas?", a: "Você pode acessar o aplicativo com todo o conteúdo da Bíblia 360° em qualquer dispositivo, seja celular, tablet ou computador." },
                 { q: "Receberei o material em casa?", a: "Não, o material é 100% online — não há material físico. No entanto, todo o conteúdo está disponível a qualquer momento." },
               ]} />
-              <button className="btn-primary" onClick={() => setScreen("offer")} style={{ marginTop: "1.25rem", cursor: "pointer" }}>
+              <button className="btn-primary" onClick={() => plansRef.current?.scrollIntoView({ behavior: "smooth" })} style={{ marginTop: "1.25rem", cursor: "pointer" }}>
                 Quero Começar Agora
               </button>
             </div>
