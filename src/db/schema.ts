@@ -147,6 +147,25 @@ export const users = pgTable("users", {
   ...timestamps,
 });
 
+// ── PerfectPay Sales ─────────────────────────────────────────────────────────
+export const perfectpaySales = pgTable("perfectpay_sales", {
+  id: uuid("id").primaryKey().default(sql`gen_random_uuid()`),
+  token: text("token").notNull(),
+  code: text("code").notNull().unique(),
+  saleAmount: integer("sale_amount").notNull(),
+  currencyEnum: smallint("currency_enum").notNull(),
+  saleStatusEnum: smallint("sale_status_enum").notNull(),
+  dateCreated: timestamp("date_created", { withTimezone: false }).notNull(),
+  dateApproved: timestamp("date_approved", { withTimezone: false }),
+  productCode: text("product_code").notNull(),
+  productName: text("product_name").notNull(),
+  planCode: text("plan_code").notNull(),
+  planName: text("plan_name").notNull(),
+  customerFullName: text("customer_full_name").notNull(),
+  customerEmail: text("customer_email").notNull(),
+  ...timestamps,
+});
+
 // ── Types ────────────────────────────────────────────────────────────────────
 export type Project = typeof projects.$inferSelect;
 export type Question = typeof questions.$inferSelect;
@@ -157,6 +176,8 @@ export type Lead = typeof leads.$inferSelect;
 export type LeadAnswer = typeof leadAnswers.$inferSelect;
 export type AnalyticsEvent = typeof analyticsEvents.$inferSelect;
 export type User = typeof users.$inferSelect;
+
+export type PerfectpaySale = typeof perfectpaySales.$inferSelect;
 
 export type EventType =
   | "page_view"

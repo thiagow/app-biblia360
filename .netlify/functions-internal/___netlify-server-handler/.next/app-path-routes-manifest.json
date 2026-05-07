@@ -1,0 +1,16 @@
+{
+  "/[slug]/page": "/[slug]",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/leads/page": "/admin/leads",
+  "/admin/page": "/admin",
+  "/api/admin/leads/route": "/api/admin/leads",
+  "/api/admin/metrics/route": "/api/admin/metrics",
+  "/api/auth/[...nextauth]/route": "/api/auth/[...nextauth]",
+  "/api/events/route": "/api/events",
+  "/api/leads/route": "/api/leads",
+  "/api/quiz/[slug]/route": "/api/quiz/[slug]",
+  "/auth/login/page": "/auth/login",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/"
+}

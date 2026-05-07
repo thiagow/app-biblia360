@@ -1,0 +1,16 @@
+{
+  "/[slug]/page": "app/[slug]/page.js",
+  "/_global-error/page": "app/_global-error/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/leads/page": "app/admin/leads/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/api/admin/leads/route": "app/api/admin/leads/route.js",
+  "/api/admin/metrics/route": "app/api/admin/metrics/route.js",
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/api/events/route": "app/api/events/route.js",
+  "/api/leads/route": "app/api/leads/route.js",
+  "/api/quiz/[slug]/route": "app/api/quiz/[slug]/route.js",
+  "/auth/login/page": "app/auth/login/page.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
+}
